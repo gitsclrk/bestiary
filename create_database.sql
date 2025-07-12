@@ -2,7 +2,7 @@
 -- This script creates the database and users table for the military bestiary system
 
 -- Create the database
-CREATE DATABASE IF NOT EXISTS military_bestiary;
+CREATE DATABASE IF NOT EXISTS bestiary;
 USE military_bestiary;
 
 -- Create users table
