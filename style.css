@@ -1,0 +1,380 @@
+/* Import modern font */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap');
+
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.terminal-body {
+    font-family: 'Rajdhani', sans-serif;
+    background-color: #101820;
+    color: #e0f7fa;
+    line-height: 1.5;
+    padding: 2rem;
+}
+
+/* Terminal Container */
+.terminal-frame {
+    max-width: 1000px;
+    margin: auto;
+    background-color: #161e2e;
+    border: 2px solid #5effd6;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 0 15px #44ffe2;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.4s ease;
+}
+
+/* Header */
+.header-title {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #5effd6;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    color: #9beae0;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+.rank {
+    color: #ffa726;
+    font-weight: bold;
+}
+
+/* Form */
+.creature-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.creature-form input {
+    padding: 0.75rem;
+    border-radius: 5px;
+    border: 1px solid #5effd6;
+    background-color: #101e2e;
+    color: #ffffff;
+    transition: all 0.25s ease;
+}
+
+.creature-form input:focus {
+    border-color: #00e6b8;
+    background-color: #182a36;
+    outline: none;
+}
+
+.creature-form input::placeholder {
+    color: #aeeeee;
+    font-size: 0.9rem;
+}
+
+.creature-form button {
+    background-color: #5effd6;
+    color: #000c0f;
+    border: none;
+    padding: 0.75rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    font-size: 1rem;
+    box-shadow: 0 0 5px #5effd6;
+    transition: all 0.25s ease;
+}
+
+.creature-form button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 10px #5effd6;
+}
+
+/* Table */
+.bestiary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.bestiary-table thead {
+    background-color: #223344;
+}
+
+.bestiary-table th,
+.bestiary-table td {
+    padding: 0.75rem;
+    border: 1px solid #334455;
+    text-align: left;
+}
+
+.bestiary-table tbody tr:hover {
+    background-color: #1e2a38;
+}
+
+
+
+/* Badge Styling */
+..classification {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #000;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.classification-bioform { background-color: #8bc34a; }
+.classification-synthetic { background-color: #00bcd4; }
+.classification-hostile { background-color: #ef5350; }
+.classification-default { background-color: #e0e0e0; }
+
+/* Footer */
+.terminal-footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.logout-button {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #64ffda;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.logout-button:hover {
+    color: #00e6b8;
+}
+
+/* JavaScript Fade-In Effect */
+.fade-in {
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.action-icons a {
+    font-size: 1.2rem;
+    margin-right: 8px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    text-align: center;
+}
+
+.action-icons a:hover {
+    color: #ffffff;
+}
+
+td a {
+    color: #64ffda;
+    text-decoration: none;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+td a:hover {
+    text-decoration: underline;
+    color: #00e6b8;
+}
+
+.creature-form textarea {
+    background: #0f1c2e;
+    border: 1px solid #5effd6;
+    padding: 0.75rem;
+    color: #aeeeee;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+.creature-form input[type="file"] {
+    background-color: #161e2e;
+    color: #aeeeee;
+    border: 1px solid #5effd6;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+/* Force all links inside the bestiary table to appear white */
+.bestiary-table td a {
+    color: #ffffff !important;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+/* Hover effect for links */
+.bestiary-table td a:hover {
+    color: #64ffda !important;
+    text-decoration: underline;
+}
+
+/* Animated background gradient for auth pages */
+.auth-body {
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(-45deg, #E3EEB2, #71C0BB, #4E6688, #332D56);
+    background-size: 400% 400%;
+    animation: gradientShift 10s linear infinite alternate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    color: #e0f7fa;
+}
+
+
+
+/* Animation keyframes */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Optional: login/signup container styling */
+.auth-frame {
+    background-color: rgba(22, 30, 46, 0.95);
+    border: 2px solid #5effd6;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #44ffe2;
+    width: 100%;
+    max-width: 400px;
+}
+
+@media (max-width: 600px) {
+    .terminal-frame,
+    .auth-frame {
+        padding: 1.5rem;
+        margin: 1rem;
+        width: 90%;
+    }
+
+    .creature-form input,
+    .creature-form textarea,
+    .creature-form button {
+        font-size: 1rem;
+    }
+
+    .bestiary-table th,
+    .bestiary-table td {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+
+    .header-title {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"] {
+    flex: 1;
+    padding-right: 2.5rem;
+}
+
+.toggle-eye {
+    position: absolute;
+    right: 10px;
+    font-size: 1.1rem;
+    color: #aeeeee;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Filter form */
+form[method="GET"] {
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+/* Dropdowns */
+form[method="GET"] select,
+form[method="GET"] button {
+    background-color: #161e2e;
+    border: 1px solid #5effd6;
+    color: #aeeeee;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+form[method="GET"] select:focus,
+form[method="GET"] button:focus {
+    outline: none;
+    border-color: #00e6b8;
+    box-shadow: 0 0 5px #5effd6;
+}
+
+/* Button styling */
+form[method="GET"] button {
+    background-color: #5effd6;
+    color: #101820;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+form[method="GET"] button:hover {
+    background-color: #00e6b8;
+    box-shadow: 0 0 10px #00e6b8;
+}
+
+.flash-message {
+    background-color: #162f2e;
+    color: #64ffda;
+    border: 1px solid #5effd6;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    border-radius: 5px;
+    font-weight: bold;
+    animation: fadeIn 0.4s ease-out, slideUp 0.5s ease-out 3s forwards;
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+        height: 0;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+    }
+}
+
+
+
+
