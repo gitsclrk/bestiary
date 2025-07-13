@@ -1,8 +1,8 @@
 <?php
 $host = 'db4free.net';
-$db   = 'bestiary';
-$user = 'wonsmin';
-$pass = 'svt052615';
+$db   = 'campvall';
+$user = 'wonsminn';
+$pass = 'Svt052615';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
