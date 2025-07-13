@@ -1,21 +1,14 @@
-# Use the official PHP 8 image with Debian base
+# Use the official PHP 8 CLI image
 FROM php:8.2-cli
 
-# Install PDO MySQL extension
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    libzip-dev \
-    unzip \
-    && docker-php-ext-install pdo_mysql
-
-# Set the working directory
+# Set the working directory inside the container
 WORKDIR /var/www/html
 
-# Copy all project files into container
+# Copy all your app files into the container
 COPY . .
 
-# Expose Render port
+# Expose the port Render expects
 EXPOSE 10000
 
-# Start PHP’s built-in web server
+# Start the built-in PHP server
 CMD ["php", "-S", "0.0.0.0:10000"]
