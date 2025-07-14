@@ -124,7 +124,7 @@ body.terminal-body {
 
 
 /* Badge Styling */
-..classification {
+.classification {
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
     font-weight: bold;
