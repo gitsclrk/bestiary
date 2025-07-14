@@ -190,8 +190,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <td><?= htmlspecialchars($creature['crtr_environment']) ?></td>
                     <td><?= htmlspecialchars($creature['logged_by']) ?></td>
                     <td>
-                        <a href="actions/edit_creature.php?id=<?= urlencode($creature['crtr_id']) ?>" title="Edit">Edit</a> |
-                        <a href="actions/delete_creature.php?id=<?= urlencode($creature['crtr_id']) ?>"
+                        <a href="edit_creature.php?id=<?= urlencode($creature['crtr_id']) ?>" title="Edit">Edit</a> |
+                        <a href="delete_creature.php?id=<?= urlencode($creature['crtr_id']) ?>"
                            onclick="return confirm('Confirm deletion of this record?')" title="Delete">Delete</a>
                     </td>
                 </tr>
