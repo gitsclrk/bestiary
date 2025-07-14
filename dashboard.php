@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard – Camp Valhalla</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="terminal-body">
 <div class="terminal-frame fade-in">
@@ -75,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header>
         <h1 class="header-title">Camp Valhalla Ops Dashboard</h1>
         <p class="subtitle">Welcome, <strong><?= htmlspecialchars($username) ?></strong> | Rank: <span class="rank"><?= htmlspecialchars($rank) ?></span></p>
+        <a href="logout.php" class="logout-button" style="position:absolute;top:2rem;right:2rem;">Log Out</a>
     </header>
 
     <section>
@@ -201,7 +202,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <footer class="terminal-footer">
         <p>Valhalla Tactical Systems — Access Level: Secure</p>
-        <a href="logout.php" class="logout-button">Log Out</a>
     </footer>
 </div>
 <script>
