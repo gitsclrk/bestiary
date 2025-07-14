@@ -34,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $check->execute([$id]);
     } while ($check->fetch());
 
-    // Handle image upload if provided
     if (isset($_FILES['crtr_image']) && $_FILES['crtr_image']['error'] === UPLOAD_ERR_OK) {
         $uploadDir = __DIR__ . '/uploads/';
         if (!is_dir($uploadDir)) {
@@ -50,15 +49,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $stmt = $pdo->prepare("INSERT INTO creatures 
-        (crtr_id, crtr_name, crtr_size, crtr_progeny, crtr_type, crtr_environment, crtr_description, crtr_image, user_id) 
+        (crtr_id, crtr_name, crtr_size, crtr_progeny, crtr_type, crtr_environment, crtr_description, crtr_image, logged_by) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$id, $name, $size, $progeny, $type, $environment, $description, $imageFileName, $userId]);
+    $stmt->execute([$id, $name, $size, $progeny, $type, $environment, $description, $imageFileName, $username]);
 
     $_SESSION['flash'] = "New creature entry logged.";
     header("Location: dashboard.php");
     exit;
-
-
 }
 ?>
 <!DOCTYPE html>
@@ -67,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard – Camp Valhalla</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="terminal-body">
 <div class="terminal-frame fade-in">
@@ -100,10 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <select name="user_filter">
                 <option value="">All Users</option>
                 <?php
-                $users = $pdo->query("SELECT user_id, user_username FROM users ORDER BY user_username ASC");
+                $users = $pdo->query("SELECT DISTINCT logged_by FROM creatures ORDER BY logged_by ASC");
                 foreach ($users as $u) {
-                    $selected = ($_GET['user_filter'] ?? '') == $u['user_id'] ? 'selected' : '';
-                    echo "<option value='{$u['user_id']}' $selected>" . htmlspecialchars($u['user_username']) . "</option>";
+                    $val = $u['logged_by'];
+                    $selected = ($_GET['user_filter'] ?? '') === $val ? 'selected' : '';
+                    echo "<option value=\"$val\" $selected>" . htmlspecialchars($val) . "</option>";
                 }
                 ?>
             </select>
@@ -154,54 +152,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $params = [];
 
             if (!empty($_GET['user_filter'])) {
-                $where[] = 'c.user_id = ?';
+                $where[] = 'logged_by = ?';
                 $params[] = $_GET['user_filter'];
             }
             if (!empty($_GET['type_filter'])) {
-                $where[] = 'c.crtr_type = ?';
+                $where[] = 'crtr_type = ?';
                 $params[] = $_GET['type_filter'];
             }
             if (!empty($_GET['env_filter'])) {
-                $where[] = 'c.crtr_environment = ?';
+                $where[] = 'crtr_environment = ?';
                 $params[] = $_GET['env_filter'];
             }
 
-            $sql = "
-                SELECT c.*, u.user_username
-                FROM creatures c
-                JOIN users u ON c.user_id = u.user_id
-            ";
-
+            $sql = "SELECT * FROM creatures";
             if ($where) {
                 $sql .= " WHERE " . implode(" AND ", $where);
             }
-
-            $sql .= " ORDER BY c.created_at DESC";
+            $sql .= " ORDER BY created_at DESC";
 
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
 
-            $index = 001;
+            $index = 1;
             while ($creature = $stmt->fetch()):
                 $typeSlug = strtolower(preg_replace('/[^a-z0-9]/', '', $creature['crtr_type']));
                 $classClass = !empty($typeSlug) ? "classification-$typeSlug" : "classification-default";
                 ?>
                 <tr>
                     <td><?= $index++ ?></td>
-                    <td>
-                        <a href="creaturesdesc.php?id=<?= urlencode($creature['crtr_id']) ?>">
-                            <?= htmlspecialchars($creature['crtr_name']) ?>
-                        </a>
-                    </td>
+                    <td><a href="creaturesdesc.php?id=<?= urlencode($creature['crtr_id']) ?>">
+                        <?= htmlspecialchars($creature['crtr_name']) ?></a></td>
                     <td><?= htmlspecialchars($creature['crtr_size']) ?></td>
                     <td><?= htmlspecialchars($creature['crtr_progeny']) ?: '—' ?></td>
-                    <td>
-                        <span class="classification <?= $classClass ?>">
-                            <?= strtoupper(htmlspecialchars($creature['crtr_type'])) ?>
-                        </span>
-                    </td>
+                    <td><span class="classification <?= $classClass ?>">
+                        <?= strtoupper(htmlspecialchars($creature['crtr_type'])) ?></span></td>
                     <td><?= htmlspecialchars($creature['crtr_environment']) ?></td>
-                    <td><?= htmlspecialchars($creature['user_username']) ?></td>
+                    <td><?= htmlspecialchars($creature['logged_by']) ?></td>
                     <td>
                         <a href="actions/edit_creature.php?id=<?= urlencode($creature['crtr_id']) ?>" title="Edit">Edit</a> |
                         <a href="actions/delete_creature.php?id=<?= urlencode($creature['crtr_id']) ?>"
