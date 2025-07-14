@@ -1,9 +1,9 @@
 <?php
 session_start(); // ✅ Needed for flash messages
-require '../db.php';
+require 'db.php';
 
 if (!isset($_GET['id'])) {
-    header('Location: ../dashboard.php');
+    header('Location: dashboard.php');
     exit;
 }
 
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // ✅ Flash message and redirect
     $_SESSION['flash'] = "Creature updated successfully.";
-    header("Location: ../dashboard.php");
+    header("Location: dashboard.php");
     exit;
 }
 ?>
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Edit Creature</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body class="terminal-body">
 <div class="terminal-frame fade-in">
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit">Save Changes</button>
     </form>
     <div style="text-align: center; margin-top: 1rem;">
-        <a href="../dashboard.php" class="logout-button">← Cancel</a>
+        <a href="dashboard.php" class="logout-button">← Cancel</a>
     </div>
 </div>
 </body>
