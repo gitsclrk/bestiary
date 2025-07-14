@@ -1,10 +1,10 @@
 <?php
 session_start();
-require '../db.php';
+require 'db.php';
 
 if (!isset($_GET['id'])) {
     $_SESSION['flash'] = "No creature ID specified.";
-    header('Location: ../dashboard.php');
+    header('Location: dashboard.php');
     exit;
 }
 
@@ -29,5 +29,5 @@ if ($stmt->rowCount()) {
     $_SESSION['flash'] = "Creature not found or could not be deleted.";
 }
 
-header("Location: ../dashboard.php");
+header("Location: dashboard.php");
 exit;
