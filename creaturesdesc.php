@@ -21,7 +21,7 @@ if (!$creature) {
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($creature['crtr_name']) ?> – Profile</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body class="terminal-body">
 <div class="terminal-frame fade-in">
