@@ -1,8 +1,7 @@
-
 <?php
 session_start();
 require 'db.php';
-echo "<p style='color:lime;'>Using DB: " . realpath(__DIR__ . '/campval.sqlite') . "</p>"; // fixed DB path
+// echo "<p style='color:lime;'>Using DB: " . realpath(__DIR__ . '/campval.sqlite') . "</p>"; // fixed DB path
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
