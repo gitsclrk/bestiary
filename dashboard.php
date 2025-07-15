@@ -95,19 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <section>
         <h2 class="subtitle">Encounter Log – Registered Creatures</h2>
-<form method="GET" class="filters" style="margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-    <select name="user_filter">
-        <option value="">All Users</option>
-        <?php
-        $users = $pdo->query("SELECT DISTINCT logged_by FROM creatures ORDER BY logged_by ASC");
-        foreach ($users as $u) {
-            $val = $u['logged_by'];
-            $selected = ($_GET['user_filter'] ?? '') === $val ? 'selected' : '';
-            echo "<option value=\"$val\" $selected>" . htmlspecialchars($val) . "</option>";
-        }
-        ?>
-    </select>
-
    <form method="GET" class="filters" style="margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
     <select name="user_filter">
         <option value="">All Users</option>
