@@ -1,7 +1,7 @@
 <?php
 try {
     // Connect to the SQLite database in the current directory
-    $pdo = new PDO('sqlite:' . __DIR__ . '/bestiary.sqlite');
+    $pdo = new PDO('sqlite:' . __DIR__ . '/campval.sqlite');
 
     // Set error mode to exceptions
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
