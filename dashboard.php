@@ -1,7 +1,7 @@
 <?php
 session_start();
 require 'db.php';
-echo "<p style='color:lime;'>Using DB: " . realpath(__DIR__ . '/bestiary.sqlite') . "</p>";
+// echo "<p style='color:lime;'>Using DB: " . realpath(__DIR__ . '/bestiary.sqlite') . "</p>";
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
