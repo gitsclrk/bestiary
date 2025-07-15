@@ -1,7 +1,8 @@
+
 <?php
 session_start();
 require 'db.php';
-echo "<p style='color:lime;'>Using DB: " . realpath(__DIR__ . '/campval.sqlite') . "</p>";
+echo "<p style='color:lime;'>Using DB: " . realpath(__DIR__ . '/campval.sqlite') . "</p>"; // fixed DB path
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
@@ -60,4 +61,128 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!-- HTML and filters preserved correctly -->
+<!-- Filter Form -->
+<form method="GET" style="margin: 2rem 0; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <select name="user_filter">
+        <option value="">All Users</option>
+        <?php
+        $users = $pdo->query("SELECT DISTINCT logged_by FROM creatures ORDER BY logged_by ASC");
+        foreach ($users as $u) {
+            $val = $u['logged_by'];
+            $selected = ($_GET['user_filter'] ?? '') === $val ? 'selected' : '';
+            echo "<option value=\"$val\" $selected>" . htmlspecialchars($val) . "</option>";
+        }
+        ?>
+    </select>
+
+    <select name="type_filter">
+        <option value="">All Types</option>
+        <?php
+        $types = $pdo->query("SELECT DISTINCT crtr_type FROM creatures ORDER BY crtr_type ASC");
+        foreach ($types as $t) {
+            $val = htmlspecialchars($t['crtr_type']);
+            $selected = ($_GET['type_filter'] ?? '') == $val ? 'selected' : '';
+            echo "<option value=\"$val\" $selected>$val</option>";
+        }
+        ?>
+    </select>
+
+    <select name="env_filter">
+        <option value="">All Environments</option>
+        <?php
+        $envs = $pdo->query("SELECT DISTINCT crtr_environment FROM creatures ORDER BY crtr_environment ASC");
+        foreach ($envs as $e) {
+            $val = htmlspecialchars($e['crtr_environment']);
+            $selected = ($_GET['env_filter'] ?? '') == $val ? 'selected' : '';
+            echo "<option value=\"$val\" $selected>$val</option>";
+        }
+        ?>
+    </select>
+
+    <button type="submit">Apply Filters</button>
+</form>
+
+
+        <table class="bestiary-table">
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Progeny</th>
+                <th>Classification</th>
+                <th>Native Environment</th>
+                <th>Logged By</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            $where = [];
+            $params = [];
+
+            if (!empty($_GET['user_filter'])) {
+                $where[] = 'logged_by = ?';
+                $params[] = $_GET['user_filter'];
+            }
+            if (!empty($_GET['type_filter'])) {
+                $where[] = 'crtr_type = ?';
+                $params[] = $_GET['type_filter'];
+            }
+            if (!empty($_GET['env_filter'])) {
+                $where[] = 'crtr_environment = ?';
+                $params[] = $_GET['env_filter'];
+            }
+
+            $sql = "SELECT * FROM creatures";
+            if ($where) {
+                $sql .= " WHERE " . implode(" AND ", $where);
+            }
+            $sql .= " ORDER BY created_at DESC";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+
+            $index = 1;
+            while ($creature = $stmt->fetch()):
+                $typeSlug = strtolower(preg_replace('/[^a-z0-9]/', '', $creature['crtr_type']));
+                $classClass = !empty($typeSlug) ? "classification-$typeSlug" : "classification-default";
+                ?>
+                <tr>
+                    <td><?= $index++ ?></td>
+                    <td><a href="creaturesdesc.php?id=<?= urlencode($creature['crtr_id']) ?>">
+                        <?= htmlspecialchars($creature['crtr_name']) ?></a></td>
+                    <td><?= htmlspecialchars($creature['crtr_size']) ?></td>
+                    <td><?= htmlspecialchars($creature['crtr_progeny']) ?: '—' ?></td>
+                    <td><span class="classification <?= $classClass ?>">
+                        <?= strtoupper(htmlspecialchars($creature['crtr_type'])) ?></span></td>
+                    <td><?= htmlspecialchars($creature['crtr_environment']) ?></td>
+                    <td><?= htmlspecialchars($creature['logged_by']) ?></td>
+                    <td>
+                        <a href="edit_creature.php?id=<?= urlencode($creature['crtr_id']) ?>" title="Edit">Edit</a> |
+                        <a href="delete_creature.php?id=<?= urlencode($creature['crtr_id']) ?>"
+                           onclick="return confirm('Confirm deletion of this record?')" title="Delete">Delete</a>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+            </tbody>
+        </table>
+    </section>
+
+    <footer class="terminal-footer">
+        <p>Valhalla Tactical Systems — Access Level: Secure</p>
+    </footer>
+</div>
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        const frame = document.querySelector(".terminal-frame");
+        frame.style.opacity = 0;
+        frame.style.transform = "translateY(10px)";
+        setTimeout(() => {
+            frame.style.opacity = 1;
+            frame.style.transform = "translateY(0)";
+        }, 100);
+    });
+</script>
+</body>
+</html>
