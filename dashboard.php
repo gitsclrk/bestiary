@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <section>
         <h2 class="subtitle">Encounter Log – Registered Creatures</h2>
-       <form method="GET" style="margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+<form method="GET" class="filters" style="margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
     <select name="user_filter">
         <option value="">All Users</option>
         <?php
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $types = $pdo->query("SELECT DISTINCT crtr_type FROM creatures ORDER BY crtr_type ASC");
         foreach ($types as $t) {
             $val = htmlspecialchars($t['crtr_type']);
-            $selected = ($_GET['type_filter'] ?? '') == $val ? 'selected' : '';
+            $selected = ($_GET['type_filter'] ?? '') === $val ? 'selected' : '';
             echo "<option value=\"$val\" $selected>$val</option>";
         }
         ?>
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $envs = $pdo->query("SELECT DISTINCT crtr_environment FROM creatures ORDER BY crtr_environment ASC");
         foreach ($envs as $e) {
             $val = htmlspecialchars($e['crtr_environment']);
-            $selected = ($_GET['env_filter'] ?? '') == $val ? 'selected' : '';
+            $selected = ($_GET['env_filter'] ?? '') === $val ? 'selected' : '';
             echo "<option value=\"$val\" $selected>$val</option>";
         }
         ?>
@@ -134,8 +134,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <button type="submit">Apply Filters</button>
 </form>
-
-
         <table class="bestiary-table">
             <thead>
             <tr>
