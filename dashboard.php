@@ -108,6 +108,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ?>
     </select>
 
+   <form method="GET" class="filters" style="margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <select name="user_filter">
+        <option value="">All Users</option>
+        <?php
+        $users = $pdo->query("SELECT DISTINCT logged_by FROM creatures ORDER BY logged_by ASC");
+        foreach ($users as $u) {
+            $val = $u['logged_by'];
+            $selected = ($_GET['user_filter'] ?? '') === $val ? 'selected' : '';
+            echo "<option value=\"$val\" $selected>" . htmlspecialchars($val) . "</option>";
+        }
+        ?>
+    </select>
+
     <select name="type_filter">
         <option value="">All Types</option>
         <?php
@@ -133,7 +146,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </select>
 
     <button type="submit">Apply Filters</button>
-</form>
+    <a href="dashboard.php" style="align-self: center; padding: 0.5rem 1rem; background-color: #444; color: white; text-decoration: none; border-radius: 4px;">Clear Filters</a>
+    </form>
         <table class="bestiary-table">
             <thead>
             <tr>
