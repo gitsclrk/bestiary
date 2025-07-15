@@ -1,7 +1,7 @@
 <?php
 session_start();
 require 'db.php';
-// echo "<p style='color:lime;'>Using DB: " . realpath(__DIR__ . '/campval.sqlite') . "</p>"; // fixed DB path
+echo "<p style='color:lime;'>Using DB: " . realpath(__DIR__ . '/bestiary.sqlite') . "</p>";
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
@@ -59,9 +59,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard – Camp Valhalla</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="terminal-body">
+<div class="terminal-frame fade-in">
+    <?php if ($flash): ?>
+        <div class="flash-message"><?= htmlspecialchars($flash) ?></div>
+    <?php endif; ?>
 
-<!-- Filter Form -->
-<form method="GET" style="margin: 2rem 0; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <header>
+        <h1 class="header-title">Camp Valhalla Ops Dashboard</h1>
+        <p class="subtitle">Welcome, <strong><?= htmlspecialchars($username) ?></strong> | Rank: <span class="rank"><?= htmlspecialchars($rank) ?></span></p>
+        <a href="logout.php" class="logout-button" style="position:absolute;top:2rem;right:2rem;">Log Out</a>
+    </header>
+
+    <section>
+        <h2 class="subtitle">Submit New Creature Report</h2>
+        <form method="POST" class="creature-form" enctype="multipart/form-data">
+            <input type="text" name="crtr_name" placeholder="Name" required />
+            <input type="text" name="crtr_size" placeholder="Size" required />
+            <input type="text" name="crtr_progeny" placeholder="Progeny / Ancestry (optional)" />
+            <input type="text" name="crtr_type" placeholder="Classification (Type)" required />
+            <input type="text" name="crtr_environment" placeholder="Native Environment" required />
+            <textarea name="crtr_description" placeholder="Description (optional)" rows="4"></textarea>
+            <input type="file" name="crtr_image" accept="image/*" />
+            <button type="submit">Log Entry</button>
+        </form>
+    </section>
+
+    <section>
+        <h2 class="subtitle">Encounter Log – Registered Creatures</h2>
+       <form method="GET" style="margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
     <select name="user_filter">
         <option value="">All Users</option>
         <?php
