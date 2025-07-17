@@ -174,9 +174,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
-           <?php $index = 1; ?>
+           $index = 1;
 
-                <?php while ($creature = $stmt->fetch()):
+            while ($creature = $stmt->fetch()):
                     $typeSlug = strtolower(preg_replace('/[^a-z0-9]/', '', $creature['crtr_type']));
                     $classClass = !empty($typeSlug) ? "classification-$typeSlug" : "classification-default";
                 ?>
