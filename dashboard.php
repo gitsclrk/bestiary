@@ -175,13 +175,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
 
-            $index = 1;
             while ($creature = $stmt->fetch()):
                 $typeSlug = strtolower(preg_replace('/[^a-z0-9]/', '', $creature['crtr_type']));
                 $classClass = !empty($typeSlug) ? "classification-$typeSlug" : "classification-default";
-                ?>
+            ?>
                 <tr>
-                    <td><?= $index++ ?></td>
+                    <td><?= htmlspecialchars($creature['id']) ?></td> <!-- Permanent ID from DB -->
                     <td><a href="creaturesdesc.php?id=<?= urlencode($creature['crtr_id']) ?>">
                         <?= htmlspecialchars($creature['crtr_name']) ?></a></td>
                     <td><?= htmlspecialchars($creature['crtr_size']) ?></td>
@@ -197,6 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </td>
                 </tr>
             <?php endwhile; ?>
+
             </tbody>
         </table>
     </section>
