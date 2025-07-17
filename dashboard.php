@@ -165,12 +165,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $where[] = 'crtr_environment = ?';
                 $params[] = $_GET['env_filter'];
             }
+                $sql = "SELECT * FROM creatures";
+                if ($where) {
+                    $sql .= " WHERE " . implode(" AND ", $where);
+                }
+                $sql .= " ORDER BY id DESC"; // ← this line is changed
 
-            $sql = "SELECT * FROM creatures";
-            if ($where) {
-                $sql .= " WHERE " . implode(" AND ", $where);
-            }
-            $sql .= " ORDER BY created_at DESC";
 
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
