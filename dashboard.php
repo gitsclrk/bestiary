@@ -174,29 +174,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
-            <?php $index = 1; ?>
+           <?php $index = 1; ?>
 
-             <?php while ($creature = $stmt->fetch()):
+                <?php while ($creature = $stmt->fetch()):
                     $typeSlug = strtolower(preg_replace('/[^a-z0-9]/', '', $creature['crtr_type']));
                     $classClass = !empty($typeSlug) ? "classification-$typeSlug" : "classification-default";
                 ?>
-                        <tr>
-                            <td><?= str_pad($index++, 4, '0', STR_PAD_LEFT) ?></td> <!-- Displayed No. -->
-                            <td><a href="creaturesdesc.php?id=<?= urlencode($creature['crtr_id']) ?>">
-                                <?= htmlspecialchars($creature['crtr_name']) ?></a></td>
-                            <td><?= htmlspecialchars($creature['crtr_size']) ?></td>
-                            <td><?= htmlspecialchars($creature['crtr_progeny']) ?: '—' ?></td>
-                            <td><span class="classification <?= $classClass ?>">
-                                <?= strtoupper(htmlspecialchars($creature['crtr_type'])) ?></span></td>
-                            <td><?= htmlspecialchars($creature['crtr_environment']) ?></td>
-                            <td><?= htmlspecialchars($creature['logged_by']) ?></td>
-                            <td>
-                                <a href="edit_creature.php?id=<?= urlencode($creature['crtr_id']) ?>" title="Edit">Edit</a> |
-                                <a href="delete_creature.php?id=<?= urlencode($creature['crtr_id']) ?>"
-                                   onclick="return confirm('Confirm deletion of this record?')" title="Delete">Delete</a>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
+                    <tr>
+                        <td><?= str_pad($index++, 4, '0', STR_PAD_LEFT) ?></td> <!-- Displayed No. -->
+                        <td><a href="creaturesdesc.php?id=<?= urlencode($creature['crtr_id']) ?>">
+                            <?= htmlspecialchars($creature['crtr_name']) ?></a></td>
+                        <td><?= htmlspecialchars($creature['crtr_size']) ?></td>
+                        <td><?= htmlspecialchars($creature['crtr_progeny']) ?: '—' ?></td>
+                        <td><span class="classification <?= $classClass ?>">
+                            <?= strtoupper(htmlspecialchars($creature['crtr_type'])) ?></span></td>
+                        <td><?= htmlspecialchars($creature['crtr_environment']) ?></td>
+                        <td><?= htmlspecialchars($creature['logged_by']) ?></td>
+                        <td>
+                            <a href="edit_creature.php?id=<?= urlencode($creature['crtr_id']) ?>" title="Edit">Edit</a> |
+                            <a href="delete_creature.php?id=<?= urlencode($creature['crtr_id']) ?>"
+                               onclick="return confirm('Confirm deletion of this record?')" title="Delete">Delete</a>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+
 
             </tbody>
         </table>
